@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Physics Formula Library - Marxes</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+body { background: #f5f6fa; font-family: 'Segoe UI', sans-serif; }
+.navbar { background: #2c3e50; padding: 0.5rem 1rem; }
+.navbar .logo-text { color: #ecf0f1; font-weight: bold; font-size: 1.2rem; }
+.navbar .menu a { color: #ecf0f1; margin-right: 1rem; text-decoration: none; }
+.navbar .menu a:hover { color: #f39c12; }
+.top-bar { background: #34495e; padding: 0.3rem 1rem; text-align:right; }
+.top-bar a { color: #ecf0f1; text-decoration:none; margin-right:1rem; }
+.formula-card { cursor:pointer; transition: all 0.3s ease; border-radius:10px; }
+.formula-card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.15); }
+.formula-text { font-size:1.3rem; text-align:center; background:#ecf0f1; padding:15px; border-radius:10px; margin:10px 0; font-weight:600; }
+.modal-formula { font-size:1.5rem; text-align:center; background:#dff9fb; padding:20px; border-radius:10px; margin:15px 0; font-weight:700; }
+h1, h2, h3 { color: #2c3e50; }
+</style>
+</head>
+<body>
+
+<!-- Top Bar -->
+<div class="top-bar">
+    <a href="login.html">Log in</a>
+    <button class="btn btn-link text-light" id="logout-btn" style="display:none;">Uitloggen</button>
+</div>
+
+<!-- Navbar -->
+<nav class="navbar d-flex justify-content-between align-items-center">
+    <div class="d-flex align-items-center">
+        <img src="/public/top/js_file/static/images/lion-logo.svg" alt="Lion Logo" style="height:40px; margin-right:10px;">
+        <div class="logo-text">Marxes</div>
+    </div>
+    <div class="menu d-flex align-items-center">
+        <a href="marxes.html">Menu</a>
+        <a href="math.html">Math</a>
+        <a href="physics.html">Physics</a>
+        <a href="chemistry.html">Chemistry</a>
+        <a href="geography.html">Geography</a>
+    </div>
+</nav>
+
+<!-- Main Content -->
+<main class="container mt-5">
+<h1 class="text-center mb-4">⚗️ Physics Formula Library</h1>
+<p class="text-center lead mb-5">Klik op een formulekaart voor uitleg, variabelen en toepassingen.</p>
+
+<div class="row g-4">
+  <!-- Quantum Mechanics -->
+  <div class="col-md-6">
+    <div class="card formula-card" onclick="showFormulaDetails('schrodinger')">
+      <div class="card-header bg-primary text-white"><h5>🌀 Quantum Mechanics</h5></div>
+      <div class="card-body">
+        <h6>Schrödinger Equation</h6>
+        <div class="formula-text">iħ ∂ψ/∂t = Ĥψ</div>
+        <p class="text-muted">Time-dependent Schrödinger equation</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Special Relativity -->
+  <div class="col-md-6">
+    <div class="card formula-card" onclick="showFormulaDetails('einstein')">
+      <div class="card-header bg-success text-white"><h5>🌌 Special Relativity</h5></div>
+      <div class="card-body">
+        <h6>Mass-Energy Equivalence</h6>
+        <div class="formula-text">E = mc²</div>
+        <p class="text-muted">Relationship between mass and energy</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Electromagnetism -->
+  <div class="col-md-6">
+    <div class="card formula-card" onclick="showFormulaDetails('maxwell')">
+      <div class="card-header bg-warning text-dark"><h5>⚡ Electromagnetism</h5></div>
+      <div class="card-body">
+        <h6>Maxwell's Equations</h6>
+        <div class="formula-text">∇·E=ρ/ε₀ , ∇·B=0 , ∇×E=-∂B/∂t , ∇×B=μ₀J+μ₀ε₀ ∂E/∂t</div>
+        <p class="text-muted">Fundamentals of electromagnetism</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Thermodynamics -->
+  <div class="col-md-6">
+    <div class="card formula-card" onclick="showFormulaDetails('thermodynamics')">
+      <div class="card-header bg-danger text-white"><h5>🔥 Thermodynamics</h5></div>
+      <div class="card-body">
+        <h6>Boltzmann Entropy</h6>
+        <div class="formula-text">S = k_B ln Ω</div>
+        <p class="text-muted">Entropy as a measure of microstates</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- General Relativity -->
+  <div class="col-md-6">
+    <div class="card formula-card" onclick="showFormulaDetails('einstein_field')">
+      <div class="card-header bg-dark text-white"><h5>🌠 General Relativity</h5></div>
+      <div class="card-body">
+        <h6>Einstein Field Equations</h6>
+        <div class="formula-text">R_μν - ½ R g_μν = (8πG/c⁴) T_μν</div>
+        <p class="text-muted">How matter curves spacetime</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Wave Mechanics -->
+  <div class="col-md-6">
+    <div class="card formula-card" onclick="showFormulaDetails('wave')">
+      <div class="card-header bg-info text-white"><h5>🌊 Wave Mechanics</h5></div>
+      <div class="card-body">
+        <h6>Wave Equation</h6>
+        <div class="formula-text">∂²u/∂t² = c² ∇²u</div>
+        <p class="text-muted">Describes propagation of waves</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Particle Physics -->
+  <div class="col-md-6">
+    <div class="card formula-card" onclick="showFormulaDetails('dirac')">
+      <div class="card-header bg-purple text-white" style="background: linear-gradient(45deg,#6f42c1,#563d7c);"><h5>⚛️ Particle Physics</h5></div>
+      <div class="card-body">
+        <h6>Dirac Equation</h6>
+        <div class="formula-text">(iγ^μ ∂_μ - m)ψ = 0</div>
+        <p class="text-muted">Relativistic equation for spin-½ particles</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Statistical Mechanics -->
+  <div class="col-md-6">
+    <div class="card formula-card" onclick="showFormulaDetails('partition')">
+      <div class="card-header bg-secondary text-white"><h5>📊 Statistical Mechanics</h5></div>
+      <div class="card-body">
+        <h6>Partition Function</h6>
+        <div class="formula-text">Z = Σ_i e^(-βE_i)</div>
+        <p class="text-muted">Central function in statistical mechanics</p>
+      </div>
+    </div>
+  </div>
+</div>
+</main>
+
+<!-- Modal -->
+<div class="modal fade" id="formulaModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="formulaTitle"></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body" id="formulaBody"></div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+// Details for modals
+const formulaDetails = {
+  schrodinger: { title:"Schrödinger Equation", formula:"iħ ∂ψ/∂t = Ĥψ", description:"Describes how quantum states evolve.", variables:{"ψ":"Wavefunction","ħ":"Reduced Planck constant","Ĥ":"Hamiltonian operator","i":"Imaginary unit"}},
+  einstein: { title:"Mass-Energy Equivalence", formula:"E = mc²", description:"Shows mass-energy relationship.", variables:{"E":"Energy","m":"Mass","c":"Speed of light"}},
+  maxwell: { title:"Maxwell's Equations", formula:"∇·E=ρ/ε₀ , ∇·B=0 , ∇×E=-∂B/∂t , ∇×B=μ₀J+μ₀ε₀ ∂E/∂t", description:"Fundamentals of electromagnetism.", variables:{"E":"Electric field","B":"Magnetic field","ρ":"Charge density","J":"Current density","ε₀":"Vacuum permittivity","μ₀":"Vacuum permeability"}},
+  thermodynamics: { title:"Boltzmann Entropy", formula:"S = k_B ln Ω", description:"Entropy vs microstates.", variables:{"S":"Entropy","k_B":"Boltzmann constant","Ω":"Number of microstates"}},
+  einstein_field: { title:"Einstein Field Equations", formula:"R_μν - ½ R g_μν = (8πG/c⁴) T_μν", description:"How matter curves spacetime.", variables:{"R_μν":"Ricci tensor","R":"Scalar curvature","g_μν":"Metric tensor","G":"Gravitational constant","T_μν":"Stress-energy tensor"}},
+  wave: { title:"Wave Equation", formula:"∂²u/∂t² = c² ∇²u", description:"Wave propagation.", variables:{"u":"Wave function","c":"Wave speed","∇²":"Laplacian"}},
+  dirac: { title:"Dirac Equation", formula:"(iγ^μ ∂_μ - m)ψ = 0", description:"Relativistic spin-½ particles.", variables:{"γ^μ":"Dirac matrices","∂_μ":"Four-gradient","m":"Particle mass","ψ":"Wavefunction"}},
+  partition: { title:"Partition Function", formula:"Z = Σ_i e^(-βE_i)", description:"Thermodynamics info.", variables:{"Z":"Partition function","β":"1/(k_B T)","E_i":"Energy of microstate i"}}
+};
+
+function showFormulaDetails(key){
+  const f = formulaDetails[key]; if(!f) return;
+  document.getElementById('formulaTitle').textContent = f.title;
+  document.getElementById('formulaBody').innerHTML = `
+    <div class="modal-formula">${f.formula}</div>
+    <p>${f.description}</p>
+    <h6>Variables:</h6>
+    <ul>${Object.entries(f.variables).map(([v,d])=>`<li><strong>${v}</strong>: ${d}</li>`).join('')}</ul>
+  `;
+  new bootstrap.Modal(document.getElementById('formulaModal')).show();
+}
+</script>
+</body>
+</html>
+

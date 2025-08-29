@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login - Marxes</title>
+  <link href="/public/top/css_file/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/public/top/js_file/static/css/style.css">
+  <style>
+    .top-bar{display:flex;justify-content:space-between;align-items:center;padding:.5rem 1rem;border-bottom:1px solid #eee}
+    .top-bar .left{display:flex;align-items:center;gap:.5rem}
+    .tabs{display:flex;gap:1rem;margin-bottom:1rem}
+    .tab{padding:.5rem 1rem;border-radius:.5rem;cursor:pointer;border:1px solid #ddd}
+    .tab.active{background:#f5f5f5}
+    .form-input{display:block;width:100%;padding:.6rem;margin:.4rem 0;border:1px solid #ddd;border-radius:.5rem}
+    .btn-primary,.btn-danger{border:none;border-radius:.6rem;padding:.6rem 1rem}
+    .requirements{font-size:.9rem;color:#666;margin-top:.5rem}
+    .requirement.valid{color:green;font-weight:600}
+    .login-container{max-width:420px;margin:2rem auto;padding:1.2rem;border:1px solid #eee;border-radius:1rem;background:#fff}
+    .status-card{padding:.8rem 1rem;border:1px solid #e8e8e8;border-radius:.75rem;background:#fafafa;margin-bottom:1rem}
+  </style>
+</head>
+<body>
+  <!-- Top bar -->
+  <div class="top-bar">
+    <div class="left">
+      <strong>Marxes</strong>
+    </div>
+    <div class="right">
+      <span id="welcome-text" class="me-2"></span>
+      <a href="login.html" id="auth-link" class="btn btn-sm btn-outline-primary">Log in</a>
+      <a href="marxes.html" class="btn btn-sm btn-link">Naar menu</a>
+    </div>
+  </div>
+
+  <main class="container">
+    <div class="login-container">
+      <div id="already-logged" class="status-card" style="display:none;">
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            Je bent ingelogd als <strong id="logged-as"></strong>.
+          </div>
+          <div class="d-flex gap-2">
+            <button id="logout-btn-top" class="btn btn-danger btn-sm">Log uit</button>
+            <a href="marxes.html" class="btn btn-primary btn-sm">Ga naar menu</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="tabs">
+        <div id="login-tab" class="tab active">Login</div>
+        <div id="create-tab" class="tab">Account maken</div>
+      </div>
+
+      <!-- Login form -->
+      <div id="login-form" class="form-container">
+        <input type="text" id="username" placeholder="Gebruikersnaam" class="form-input" autocomplete="username">
+        <input type="password" id="password" placeholder="Wachtwoord" class="form-input" autocomplete="current-password">
+        <button id="login-btn" class="btn btn-primary w-100 mt-2">Login</button>
+      </div>
+
+      <!-- Create account form -->
+      <div id="create-form" class="form-container" style="display:none;">
+        <input type="text" id="new-username" placeholder="Gebruikersnaam" class="form-input" autocomplete="username">
+        <input type="email" id="new-email" placeholder="Email" class="form-input" autocomplete="email">
+        <input type="password" id="new-password" placeholder="Wachtwoord" class="form-input" autocomplete="new-password" oninput="updatePasswordRequirements()">
+        <input type="password" id="new-password-confirm" placeholder="Bevestig wachtwoord" class="form-input" autocomplete="new-password">
+
+        <div class="requirements">
+          <div id="req-length" class="requirement">Minimaal 8 tekens</div>
+          <div id="req-uppercase" class="requirement">Minimaal 1 hoofdletter</div>
+          <div id="req-number" class="requirement">Minimaal 1 cijfer</div>
+          <div id="req-special" class="requirement">Minimaal 1 speciaal teken (!@#$%^&*)</div>
+        </div>
+
+        <button id="create-btn" class="btn btn-primary w-100 mt-2">Account maken</button>
+      </div>
+    </div>
+  </main>
+
+  <script src="/public/top/css_file/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // ===== Helpers: storage =====
+    function getAccounts(){ try{return JSON.parse(localStorage.getItem('accounts'))||[]}catch{ return [] } }
+    function saveAccounts(a){ localStorage.setItem('accounts', JSON.stringify(a)) }
+
+    // ===== Password checks =====
+    function updatePasswordRequirements() {
+      const p = document.getElementById('new-password').value;
+      document.getElementById('req-length').classList.toggle('valid', /.{8,}/.test(p));
+      document.getElementById('req-uppercase').classList.toggle('valid', /[A-Z]/.test(p));
+      document.getElementById('req-number').classList.toggle('valid', /[0-9]/.test(p));
+      document.getElementById('req-special').classList.toggle('valid', /[!@#$%^&*]/.test(p));
+    }
+    function strong(p){
+      return /.{8,}/.test(p)&&/[A-Z]/.test(p)&&/[0-9]/.test(p)&&/[!@#$%^&*]/.test(p);
+    }
+
+    // ===== Auth actions =====
+    function doLogin(username, password){
+      const accounts = getAccounts();
+      const acc = accounts.find(a => a.username === username && a.password === password);
+      if(!acc) return false;
+      localStorage.setItem('loggedIn','true');
+      localStorage.setItem('username',acc.username);
+      return true;
+    }
+    function doLogout(){
+      localStorage.setItem('loggedIn','false');
+      localStorage.removeItem('username');
+    }
+    function updateTopBar(){
+      const logged = localStorage.getItem('loggedIn')==='true';
+      const un = localStorage.getItem('username');
+      const authLink = document.getElementById('auth-link');
+      const welcome = document.getElementById('welcome-text');
+      if(logged && un){
+        welcome.textContent = `Welkom, ${un}`;
+        authLink.textContent = 'Log uit';
+        authLink.href = '#';
+        authLink.onclick = (e)=>{ e.preventDefault(); doLogout(); updateUI(); };
+      }else{
+        welcome.textContent = '';
+        authLink.textContent = 'Log in';
+        authLink.href = 'login.html';
+        authLink.onclick = null;
+      }
+    }
+
+    function updateUI(){
+      updateTopBar();
+      const logged = localStorage.getItem('loggedIn')==='true';
+      const un = localStorage.getItem('username');
+      const already = document.getElementById('already-logged');
+      const loggedAs = document.getElementById('logged-as');
+
+      if(logged && un){
+        already.style.display = 'block';
+        loggedAs.textContent = un;
+      }else{
+        already.style.display = 'none';
+      }
+    }
+
+    // ===== Event wiring =====
+    window.addEventListener('DOMContentLoaded', ()=>{
+      // Tabs
+      const loginTab = document.getElementById('login-tab');
+      const createTab = document.getElementById('create-tab');
+      const loginForm = document.getElementById('login-form');
+      const createForm = document.getElementById('create-form');
+
+      loginTab.addEventListener('click', ()=>{
+        loginTab.classList.add('active'); createTab.classList.remove('active');
+        loginForm.style.display='block'; createForm.style.display='none';
+      });
+      createTab.addEventListener('click', ()=>{
+        createTab.classList.add('active'); loginTab.classList.remove('active');
+        createForm.style.display='block'; loginForm.style.display='none';
+      });
+
+      // Buttons
+      document.getElementById('login-btn').addEventListener('click', ()=>{
+        const u = document.getElementById('username').value.trim();
+        const p = document.getElementById('password').value.trim();
+        if(!u||!p){ alert('Vul gebruikersnaam en wachtwoord in.'); return; }
+        if(doLogin(u,p)){ window.location.href='marxes.html'; }
+        else{ alert('Ongeldige gebruikersnaam of wachtwoord.'); }
+      });
+
+      document.getElementById('create-btn').addEventListener('click', ()=>{
+        const u = document.getElementById('new-username').value.trim();
+        const e = document.getElementById('new-email').value.trim();
+        const p = document.getElementById('new-password').value.trim();
+        const pc = document.getElementById('new-password-confirm').value.trim();
+
+        if(!u||!e||!p||!pc){ alert('Vul alle velden in.'); return; }
+        if(p!==pc){ alert('Wachtwoorden komen niet overeen.'); return; }
+        if(!strong(p)){ alert('Wachtwoord voldoet niet aan de vereisten.'); return; }
+
+        const accounts = getAccounts();
+        if(accounts.some(a=>a.username===u)){ alert('Gebruikersnaam bestaat al.'); return; }
+        if(accounts.some(a=>a.email===e)){ alert('E-mailadres bestaat al.'); return; }
+
+        accounts.push({username:u,email:e,password:p});
+        saveAccounts(accounts);
+        localStorage.setItem('loggedIn','true');
+        localStorage.setItem('username',u);
+        window.location.href='marxes.html';
+      });
+
+      document.getElementById('logout-btn-top').addEventListener('click', ()=>{
+        doLogout();
+        updateUI();
+      });
+
+      // Enter-to-submit
+      document.getElementById('password').addEventListener('keydown', (ev)=>{
+        if(ev.key==='Enter') document.getElementById('login-btn').click();
+      });
+      document.getElementById('new-password-confirm').addEventListener('keydown', (ev)=>{
+        if(ev.key==='Enter') document.getElementById('create-btn').click();
+      });
+
+      updateUI();
+    });
+  </script>
+</body>
+</html>

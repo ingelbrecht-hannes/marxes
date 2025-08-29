@@ -1,0 +1,324 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chemistry - Marxes</title>
+    <link href="/public/top/css_file/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/public/top/Js_file/static/css/style.css">
+    
+<script src="/public/top/css_file/npm/tesseract.min.js"></script>
+
+</head>
+<body>
+    <!-- Top bar -->
+   <div class="top-bar">
+    <a href="login.html" id="auth-link">Log in</a>
+    <button id="logout-btn" style="display:none;" class="btn btn-link">Uitloggen</button>
+</div>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo-area">
+            <img src="/public/top/js_file/static/images/lion-logo.svg" alt="Lion Logo">
+            <div class="logo-text">Marxes</div>
+        </div>
+
+        <div class="menu">
+            <a href="marxes.html">Menu</a>
+            <a href="math.html">Math</a>
+            <a href="physics.html">Physics</a>
+            <a href="chemistry.html">Chemistry</a>
+            <a href="geography.html">Geography</a>
+        </div>
+
+        <div class="search-area">
+            <div class="search">
+                🔍 <input type="text" placeholder="Zoek" id="search-input">
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main content -->
+    <main>
+        
+<div class="container mt-4">
+    <div class="subject-page">
+        <h1>🧪 Chemistry AI Solver</h1>
+        <p class="lead">Solve chemistry problems with AI - equations, stoichiometry, organic reactions, and more!</p>
+        
+        <div class="row">
+            <div class="col-md-8">
+                <!-- Text input section -->
+                <div class="card mb-4">
+                    <div class="card-header bg-warning text-dark">
+                        <h5>📝 Type Your Chemistry Problem</h5>
+                    </div>
+                    <div class="card-body">
+                        <textarea id="textInput" class="form-control mb-3" rows="4" placeholder="Type your chemistry problem here... (e.g., Balance the equation: H2 + O2 → H2O, or Calculate moles in 25g of NaCl)"></textarea>
+                        <button onclick="solveTextChemistry()" class="btn btn-warning">
+                            <span class="btn-text">Solve Chemistry Problem</span>
+                            <span class="spinner-border spinner-border-sm d-none" role="status"></span>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Image upload section -->
+                <div class="card mb-4">
+                    <div class="card-header bg-success text-white">
+                        <h5>📷 Upload Problem Image</h5>
+                    </div>
+                    <div class="card-body">
+                        <input type="file" accept="image/*" capture="environment" id="imageInput" class="form-control mb-3">
+                        <button onclick="solveImageChemistry()" class="btn btn-success">
+                            <span class="btn-text">Solve from Image</span>
+                            <span class="spinner-border spinner-border-sm d-none" role="status"></span>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Results section -->
+                <div class="card">
+                    <div class="card-header bg-info text-white">
+                        <h5>🎯 Chemistry Solutions</h5>
+                    </div>
+                    <div class="card-body">
+                        <div id="output" class="solution-output">
+                            Ready to solve your chemistry problems! Choose an input method above.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h6>🧮 Chemistry Formulas</h6>
+                    </div>
+                    <div class="card-body text-center">
+                        <a href="/periodic-table" class="btn btn-info mb-3" style="width: 100%;">
+                            ⚛️ Interactive Periodic Table
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h6>📊 Basic Formulas</h6>
+                    </div>
+                    <div class="card-body">
+                        <h6>Basic Calculations:</h6>
+                        <ul class="list-unstyled">
+                            <li><strong>Moles:</strong> n = m/M</li>
+                            <li><strong>Concentration:</strong> C = n/V</li>
+                            <li><strong>Ideal Gas:</strong> PV = nRT</li>
+                            <li><strong>pH:</strong> pH = -log[H⁺]</li>
+                        </ul>
+                        
+                        <h6>Important Constants:</h6>
+                        <ul class="list-unstyled">
+                            <li><strong>R:</strong> 8.314 J/(mol·K)</li>
+                            <li><strong>NA:</strong> 6.022×10²³ mol⁻¹</li>
+                            <li><strong>STP:</strong> 273.15 K, 1 atm</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h6>📊 Common Elements</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-6">
+                                <ul class="list-unstyled">
+                                    <li><strong>H:</strong> 1.008</li>
+                                    <li><strong>C:</strong> 12.01</li>
+                                    <li><strong>N:</strong> 14.007</li>
+                                    <li><strong>O:</strong> 15.999</li>
+                                </ul>
+                            </div>
+                            <div class="col-6">
+                                <ul class="list-unstyled">
+                                    <li><strong>Na:</strong> 22.99</li>
+                                    <li><strong>Cl:</strong> 35.45</li>
+                                    <li><strong>Ca:</strong> 40.08</li>
+                                    <li><strong>Fe:</strong> 55.85</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h6>💡 Chemistry Tips</h6>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-unstyled">
+                            <li>• Balance equations first</li>
+                            <li>• Check significant figures</li>
+                            <li>• Use proper chemical formulas</li>
+                            <li>• Include units in calculations</li>
+                            <li>• Consider states of matter</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    </main>
+
+    <!-- Scripts -->
+    <script src="/public/top/css_file/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/public/top/js_file/static/js/main.js"></script>
+    
+<script>
+// Global variables
+let isProcessing = false;
+
+function setButtonLoading(button, loading) {
+    const spinner = button.querySelector('.spinner-border');
+    const text = button.querySelector('.btn-text');
+    
+    if (loading) {
+        spinner.classList.remove('d-none');
+        button.disabled = true;
+        if (text) text.textContent = 'Processing...';
+    } else {
+        spinner.classList.add('d-none');
+        button.disabled = false;
+        if (text) text.textContent = button.onclick.includes('Text') ? 'Solve Chemistry Problem' : 'Solve from Image';
+    }
+}
+
+async function solveTextChemistry() {
+    if (isProcessing) return;
+    
+    const input = document.getElementById('textInput').value.trim();
+    const output = document.getElementById('output');
+    const button = event.target;
+    
+    if (!input) {
+        alert("Please enter a chemistry problem!");
+        return;
+    }
+    
+    isProcessing = true;
+    setButtonLoading(button, true);
+    output.innerHTML = '<div class="alert alert-info">🔄 Solving your chemistry problem...</div>';
+    
+    try {
+        const response = await fetch("/solve-chemistry", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ problem: input })
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok) {
+            displaySolutions(data);
+        } else {
+            output.innerHTML = `<div class="alert alert-danger">❌ Error: ${data.error || 'Unknown error occurred'}</div>`;
+        }
+    } catch (err) {
+        console.error('Error:', err);
+        output.innerHTML = '<div class="alert alert-danger">❌ Network error. Please check your connection.</div>';
+    } finally {
+        isProcessing = false;
+        setButtonLoading(button, false);
+    }
+}
+
+async function solveImageChemistry() {
+    if (isProcessing) return;
+    
+    const fileInput = document.getElementById('imageInput');
+    const output = document.getElementById('output');
+    const button = event.target;
+    
+    if (!fileInput.files[0]) {
+        alert("Please select or take a photo!");
+        return;
+    }
+    
+    isProcessing = true;
+    setButtonLoading(button, true);
+    output.innerHTML = '<div class="alert alert-info">📷 Extracting text from image...</div>';
+    
+    try {
+        // OCR Processing
+        const { data: { text } } = await Tesseract.recognize(fileInput.files[0], 'eng', {
+            logger: m => {
+                if (m.status === 'recognizing text') {
+                    output.innerHTML = `<div class="alert alert-info">📷 Processing image... ${Math.round(m.progress * 100)}%</div>`;
+                }
+            }
+        });
+        
+        if (!text.trim()) {
+            output.innerHTML = '<div class="alert alert-warning">⚠️ Could not extract text from image. Try a clearer photo.</div>';
+            return;
+        }
+        
+        output.innerHTML = `<div class="alert alert-success">📷 Extracted problem: <strong>${text.trim()}</strong></div><div class="alert alert-info">🔄 Solving chemistry problem...</div>`;
+        
+        // Solve the extracted problem
+        const response = await fetch("/solve-chemistry", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ problem: text.trim() })
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok) {
+            displaySolutions(data);
+        } else {
+            output.innerHTML = `<div class="alert alert-danger">❌ Error: ${data.error || 'Unknown error occurred'}</div>`;
+        }
+        
+    } catch (err) {
+        console.error('Error:', err);
+        output.innerHTML = '<div class="alert alert-danger">❌ Error processing image or solving problem.</div>';
+    } finally {
+        isProcessing = false;
+        setButtonLoading(button, false);
+    }
+}
+
+function displaySolutions(data) {
+    const output = document.getElementById('output');
+    
+    let html = `
+        <div class="problem-display mb-4">
+            <h5>🧪 Chemistry Problem:</h5>
+            <div class="alert alert-light">${data.problem}</div>
+        </div>
+        <div class="solutions-display">
+            <h5>🎯 AI Chemistry Solutions:</h5>
+    `;
+    
+    // Gemini Solution
+    html += `
+        <div class="card mb-3">
+            <div class="card-header bg-primary text-white">
+                <h6 class="mb-0">🔵 AI Chemistry Solution</h6>
+            </div>
+            <div class="card-body">
+                <div class="solution-text" style="font-family: Arial, sans-serif;">${data.solutions.gemini}</div>
+            </div>
+        </div>
+    `;
+    
+    html += '</div>';
+    output.innerHTML = html;
+}
+</script>
+
+</body>
+</html>
